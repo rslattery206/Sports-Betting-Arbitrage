@@ -1,10 +1,13 @@
 import requests
-from datetime import datetime, timedelta
 import pytz
+import pickle
+from datetime import datetime, timedelta
+from arbitrage_classes import ArbitrageManager, ArbitrageOpportunity
 
 
 # 279c7cb0a5d77305c981038882f61408
 # 462642ce457fcd2071b969b5387e89a4
+
 
 def get():
     possible_sports = ['americanfootball_ncaaf',
@@ -46,7 +49,6 @@ def get():
             response_json_list.append(response_given_sport.json())
         else:
             print(response_given_sport.status_code)
-    print(response_json_list)
     return response_json_list
 
 
@@ -103,7 +105,7 @@ def extract_bet_information(resp_json):
 
 if __name__ == '__main__':
     responses = get()
-    opps = []
+    arbitrage_manager = ArbitrageManager()
     for resp in responses:  # for all sports
         for game_index in range(0, len(resp)):  # for all games in that sport
 
@@ -112,22 +114,29 @@ if __name__ == '__main__':
 
             if is_future:
                 odds_list = extract_bet_information(resp)
-
                 for i in odds_list:
                     for j in odds_list:
                         if i != j:
-                            tip = (total_implied_prob(i["team1_price"], j["team2_price"],
-                                                      min(i["draw_price"], j["draw_price"])))
+
+                            max_draw_price = max(i["draw_price"], j["draw_price"])
+                            t1p = i["team1_price"]
+                            t2p = j["team2_price"]
+                            tip = total_implied_prob(t1p, t2p, max_draw_price)
                             if tip < 1:  # We're in the money lads
-                                print("Gametime: " + i["time"])
-                                print("Sport: " + str(i["sport_key"]))
-                                print(
-                                    "Team1: " + str(i["team1_name"]) + " on " + str(i["title"]) + " with odds: " + str(
-                                        i["team1_price"]))
-                                print(
-                                    "Team2: " + str(j["team2_name"]) + " on " + str(j["title"]) + " with odds: " + str(
-                                        j["team2_price"]))
-                                if i["draw_price"] > 0:
-                                    print("Draw on " + str(j["title"]) + " with odds: " + str(j["draw_price"]))
-                                print("Total Implied Prob: " + str(tip))
-                                print('\n')
+                                gametime = i["time"]
+                                sport = str(i["sport_key"])
+                                team1 = str(i["team1_name"])
+                                team2 = str(j["team2_name"])
+                                bookmaker1 = str(i["title"])
+                                bookmaker2 = str(j["title"])
+                                odds1 = i["team1_price"]
+                                odds2 = j["team2_price"]
+                                draw_odds = j["draw_price"] if j["draw_price"] > 0 else None
+                                opportunity = ArbitrageOpportunity(gametime, sport, team1, team2, bookmaker1,
+                                                                   bookmaker2, odds1, odds2, draw_odds)
+                                arbitrage_manager.add_opportunity(opportunity)
+    # all loops have now ended
+    print(arbitrage_manager.get_opportunities()[0].sport)
+    with open('arbitrage_manager.pk1', 'wb') as file:
+        pickle.dump(arbitrage_manager, file)
+
