@@ -2,86 +2,132 @@ import requests
 from datetime import datetime, timedelta
 import pytz
 
+
 # 279c7cb0a5d77305c981038882f61408
 # 462642ce457fcd2071b969b5387e89a4
 
 def get():
-    sport = 'baseball_mlb'
-    key = '462642ce457fcd2071b969b5387e89a4'
-    mkt = 'h2h'
-    region = 'us'
-    params = {'apiKey': key, 'region': region, 'mkt': mkt}
-    url = f'https://api.the-odds-api.com/v4/sports/' \
-          f'{sport}/odds/' \
-          f'?apiKey={key}' \
-          f'&regions={region}' \
-          f'&markets={mkt}'
-    resp = requests.get(url, params=params)
-    if resp.status_code == 200:
-        return resp.json(), sport
-    else:
-        print('call returned error')
-        return resp.status_code
+    possible_sports = ['americanfootball_ncaaf',
+                       'americanfootball_nfl',
+                       'americanfootball_nfl_super_bowl_winner',
+                       'aussierules_afl', 'baseball_mlb', 'basketball_nba',
+                       'cricket_test_match', 'golf_masters_tournament_winner',
+                       'golf_the_open_championship_winner', 'golf_us_open_winner',
+                       'icehockey_nhl', 'mma_mixed_martial_arts', 'rugbyleague_nrl',
+                       'soccer_australia_aleague', 'soccer_brazil_campeonato',
+                       'soccer_denmark_superliga', 'soccer_finland_veikkausliiga',
+                       'soccer_japan_j_league', 'soccer_league_of_ireland',
+                       'soccer_norway_eliteserien', 'soccer_spain_segunda_division',
+                       'soccer_sweden_allsvenskan', 'soccer_sweden_superettan',
+                       'soccer_uefa_european_championship', 'soccer_usa_mls',
+                       'tennis_atp_french_open', 'tennis_wta_french_open']
+    possible_sports = ['americanfootball_ncaaf',
+                       'americanfootball_nfl',
+                       'americanfootball_nfl_super_bowl_winner',
+                       'aussierules_afl', 'baseball_mlb', 'basketball_nba',
+                       'cricket_test_match', 'golf_masters_tournament_winner',
+                       'golf_the_open_championship_winner', 'golf_us_open_winner',
+                       'icehockey_nhl', 'mma_mixed_martial_arts']
 
-
-def implied_prob(price):
-    if price < 0:
-        odds = -price / (-price + 100)
-    else:
-        odds = 100 / (price + 100)
-    return odds
+    response_json_list = []
+    for given_sport in possible_sports:
+        print(given_sport)
+        key = '279c7cb0a5d77305c981038882f61408'
+        mkt = 'h2h'
+        region = 'us'
+        params = {'apiKey': key, 'region': region, 'mkt': mkt}
+        url = f'https://api.the-odds-api.com/v4/sports/' \
+              f'{given_sport}/odds/' \
+              f'?apiKey={key}' \
+              f'&regions={region}' \
+              f'&markets={mkt}'
+        response_given_sport = requests.get(url, params=params)
+        if response_given_sport.status_code == 200:
+            response_json_list.append(response_given_sport.json())
+        else:
+            print(response_given_sport.status_code)
+    print(response_json_list)
+    return response_json_list
 
 
 def total_implied_prob(price1, price2, draw):
+    # Calculates total implied probability given decimal odds (price)
     if draw == 0:
-        return (1/price1) + (1/price2)
+        return (1 / price1) + (1 / price2)
     else:
-        return (1/price1) + (1/price2) + (1/draw)
+        return (1 / price1) + (1 / price2) + (1 / draw)
+
+
+def check_if_future_game(game_time_str, threshold, timezone_str='America/Los_Angeles'):
+    # Checks that game starts more than (threshold) minutes in the future,
+    # also returns game time converted to given timezone (default pacific)
+    parsed_date = datetime.strptime(game_time_str, "%Y-%m-%dT%H:%M:%SZ")
+    current_date = datetime.utcnow()
+    pacific_tz = pytz.timezone(timezone_str)
+    game_time_utc = pytz.utc.localize(parsed_date)
+    converted_game_time = game_time_utc.astimezone(pacific_tz)
+    future_threshold = current_date + timedelta(minutes=threshold)  # adds threshold to current time
+    future_boolean = parsed_date > future_threshold
+    return future_boolean, converted_game_time
+
+
+def extract_bet_information(resp_json):
+    # Extract bookie, sport, odds, team names, and game time.
+    odds_list_inner = []
+    bookmakers = resp_json[game_index]['bookmakers']
+    sport = resp_json[game_index]['sport_key']
+    for entry_index in range(0, len(bookmakers)):
+        title = bookmakers[entry_index]['title']
+        outcomes = bookmakers[entry_index]['markets'][0]['outcomes']
+        team1_name = outcomes[0]['name']
+        team1_price = outcomes[0]['price']
+        team2_name = outcomes[1]['name']
+        team2_price = outcomes[1]['price']
+
+        draw1 = 0
+        draw2 = 0
+        if len(outcomes) == 3:  # draw possibility
+            draw1 = outcomes[2]['price']
+            draw2 = outcomes[2]['price']
+
+        odds_list_inner.append({"title": title,
+                                "team1_price": team1_price,
+                                "team2_price": team2_price,
+                                "team1_name": team1_name,
+                                "team2_name": team2_name,
+                                "time": str(converted_date),
+                                "draw_price": min(draw1, draw2),
+                                "sport_key": sport})
+    return odds_list_inner
 
 
 if __name__ == '__main__':
-    sport = 'baseball_mlb'
-    resp, sport = get()
+    responses = get()
+    opps = []
+    for resp in responses:  # for all sports
+        for game_index in range(0, len(resp)):  # for all games in that sport
 
-    for game_index in range(0, len(resp)):
-        odds_list = []
+            # Only consider games that haven't begun.
+            is_future, converted_date = check_if_future_game(resp[game_index]['commence_time'], 30)
 
-        # Only consider games that haven't begun.
-        threshold = 30
-        game_time_str = resp[game_index]['commence_time']
-        parsed_date = datetime.strptime(game_time_str, "%Y-%m-%dT%H:%M:%SZ")
-        current_date = datetime.utcnow()
-        pacific_tz = pytz.timezone('America/Los_Angeles')
-        game_time_utc = pytz.utc.localize(parsed_date)
-        converted_date = game_time_utc.astimezone(pacific_tz)
-        future_threshold = current_date + timedelta(minutes=threshold)
-        is_future = parsed_date > future_threshold
+            if is_future:
+                odds_list = extract_bet_information(resp)
 
-        if is_future:
-            x = (resp[game_index]['bookmakers'])
-            # Extract bookie, odds, team names, and game time.
-            for i in range(0, len(x)):
-                title = x[i]['title']
-                moneyline = x[i]['markets'][0]['outcomes']
-                team1_name = moneyline[0]['name']
-                team1_price = moneyline[0]['price']
-                team2_name = moneyline[1]['name']
-                team2_price = moneyline[1]['price']
-                draw = 0
-                if sport == 'soccer':
-                    draw = moneyline[2]['price']
-
-                odds_list.append([title, team1_price, team2_price, team1_name, team2_name, str(converted_date), draw])
-            print(odds_list)
-            for i in odds_list:
-                for j in odds_list:
-                    if i != j:
-                        tip = (total_implied_prob(i[1], j[2], min(i[6], j[6])))
-                        if tip < 1: # We're in the money lads
-                            print("Gametime: " + str(converted_date))
-                            print("Team1: " + str(i[3]) + " on " + str(i[0]) + " with odds: " + str(i[1]))
-                            print("Team2: " + str(j[4]) + " on " + str(j[0]) + " with odds: " + str(j[2]))
-                            if sport == 'soccer':
-                                print("Draw on " + str(j[0]) + " with odds: " + str(j[2]))
-                            print("Total Implied Prob: " + str(tip))
-                            print('\n')
+                for i in odds_list:
+                    for j in odds_list:
+                        if i != j:
+                            tip = (total_implied_prob(i["team1_price"], j["team2_price"],
+                                                      min(i["draw_price"], j["draw_price"])))
+                            if tip < 1:  # We're in the money lads
+                                print("Gametime: " + i["time"])
+                                print("Sport: " + str(i["sport_key"]))
+                                print(
+                                    "Team1: " + str(i["team1_name"]) + " on " + str(i["title"]) + " with odds: " + str(
+                                        i["team1_price"]))
+                                print(
+                                    "Team2: " + str(j["team2_name"]) + " on " + str(j["title"]) + " with odds: " + str(
+                                        j["team2_price"]))
+                                if i["draw_price"] > 0:
+                                    print("Draw on " + str(j["title"]) + " with odds: " + str(j["draw_price"]))
+                                print("Total Implied Prob: " + str(tip))
+                                print('\n')
