@@ -135,8 +135,9 @@ if __name__ == '__main__':
                                 opportunity = ArbitrageOpportunity(gametime, sport, team1, team2, bookmaker1,
                                                                    bookmaker2, odds1, odds2, draw_odds)
                                 arbitrage_manager.add_opportunity(opportunity)
+
     # all loops have now ended
-    print(arbitrage_manager.get_opportunities()[0].sport)
-    with open('arbitrage_manager.pk1', 'wb') as file:
-        pickle.dump(arbitrage_manager, file)
+    print(arbitrage_manager.print_opportunities())
+    # with open('arbitrage_manager.pk1', 'wb') as file:
+    #     pickle.dump(arbitrage_manager, file)
 

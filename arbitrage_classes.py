@@ -1,6 +1,6 @@
 class ArbitrageManager:
     def __init__(self):
-        self.opportunities = []
+        self.opportunities = []  # list of ArbitrageOpportunity Objects
 
     def add_opportunity(self, opportunity):
         self.opportunities.append(opportunity)
@@ -27,11 +27,11 @@ class ArbitrageOpportunity:
     def __init__(self, gametime, sport, team1, team2, bookmaker1, bookmaker2, odds1, odds2, draw_odds=None):
         self.gametime = gametime
         self.sport = sport
-        self.team1 = team1
+        self.team1 = team1 # Team 1 name
         self.team2 = team2
         self.bookmaker1 = bookmaker1
         self.bookmaker2 = bookmaker2
-        self.odds1 = odds1
+        self.odds1 = odds1 # Price1
         self.odds2 = odds2
         self.draw_odds = draw_odds
         self.total_implied_prob = self.calculate_total_implied_prob()
