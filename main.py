@@ -114,6 +114,7 @@ def extract_bet_information(resp_json):
 
 
 if __name__ == '__main__':
+    print("mom")
     responses = get()
     arbitrage_manager = ArbitrageManager()
     for resp in responses:  # for all sports
