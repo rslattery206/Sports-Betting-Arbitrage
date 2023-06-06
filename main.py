@@ -1,7 +1,7 @@
 import requests
 import pytz
 import pickle
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from arbitrage_classes import ArbitrageManager, ArbitrageOpportunity
 
 
@@ -13,29 +13,36 @@ def get():
     possible_sports = ['americanfootball_ncaaf',
                        'americanfootball_nfl',
                        'americanfootball_nfl_super_bowl_winner',
-                       'aussierules_afl', 'baseball_mlb', 'basketball_nba',
-                       'cricket_test_match', 'golf_masters_tournament_winner',
-                       'golf_the_open_championship_winner', 'golf_us_open_winner',
-                       'icehockey_nhl', 'mma_mixed_martial_arts', 'rugbyleague_nrl',
-                       'soccer_australia_aleague', 'soccer_brazil_campeonato',
-                       'soccer_denmark_superliga', 'soccer_finland_veikkausliiga',
-                       'soccer_japan_j_league', 'soccer_league_of_ireland',
-                       'soccer_norway_eliteserien', 'soccer_spain_segunda_division',
-                       'soccer_sweden_allsvenskan', 'soccer_sweden_superettan',
-                       'soccer_uefa_european_championship', 'soccer_usa_mls',
-                       'tennis_atp_french_open', 'tennis_wta_french_open']
-    possible_sports = ['americanfootball_ncaaf',
-                       'americanfootball_nfl',
-                       'americanfootball_nfl_super_bowl_winner',
-                       'aussierules_afl', 'baseball_mlb', 'basketball_nba',
-                       'cricket_test_match', 'golf_masters_tournament_winner',
-                       'golf_the_open_championship_winner', 'golf_us_open_winner',
-                       'icehockey_nhl', 'mma_mixed_martial_arts']
+                       'aussierules_afl',
+                       'baseball_mlb',
+                       'basketball_nba',
+                       'cricket_test_match',
+                       'golf_masters_tournament_winner',
+                       'golf_the_open_championship_winner',
+                       'golf_us_open_winner',
+                       'icehockey_nhl',
+                       'mma_mixed_martial_arts',
+                       'rugbyleague_nrl',
+                       'soccer_australia_aleague',
+                       'soccer_brazil_campeonato',
+                       'soccer_denmark_superliga',
+                       'soccer_finland_veikkausliiga',
+                       'soccer_japan_j_league',
+                       'soccer_league_of_ireland',
+                       'soccer_norway_eliteserien',
+                       'soccer_spain_segunda_division',
+                       'soccer_sweden_allsvenskan',
+                       'soccer_sweden_superettan',
+                       'soccer_uefa_european_championship',
+                       'soccer_usa_mls',
+                       'tennis_atp_french_open',
+                       'tennis_wta_french_open']
+    possible_sports = ['baseball_mlb']
 
     response_json_list = []
     for given_sport in possible_sports:
         print(given_sport)
-        key = '279c7cb0a5d77305c981038882f61408'
+        key = '462642ce457fcd2071b969b5387e89a4'
         mkt = 'h2h'
         region = 'us'
         params = {'apiKey': key, 'region': region, 'mkt': mkt}
@@ -64,12 +71,13 @@ def check_if_future_game(game_time_str, threshold, timezone_str='America/Los_Ang
     # Checks that game starts more than (threshold) minutes in the future,
     # also returns game time converted to given timezone (default pacific)
     parsed_date = datetime.strptime(game_time_str, "%Y-%m-%dT%H:%M:%SZ")
-    current_date = datetime.utcnow()
-    pacific_tz = pytz.timezone(timezone_str)
-    game_time_utc = pytz.utc.localize(parsed_date)
-    converted_game_time = game_time_utc.astimezone(pacific_tz)
+    parsed_date = parsed_date.replace(tzinfo=timezone.utc)
+    current_date = datetime.now(timezone.utc)
     future_threshold = current_date + timedelta(minutes=threshold)  # adds threshold to current time
     future_boolean = parsed_date > future_threshold
+
+    pacific_tz = pytz.timezone(timezone_str)
+    converted_game_time = parsed_date.astimezone(pacific_tz)
     return future_boolean, converted_game_time
 
 
@@ -80,6 +88,7 @@ def extract_bet_information(resp_json):
     sport = resp_json[game_index]['sport_key']
     for entry_index in range(0, len(bookmakers)):
         title = bookmakers[entry_index]['title']
+        last_update = bookmakers[entry_index]['last_update']
         outcomes = bookmakers[entry_index]['markets'][0]['outcomes']
         team1_name = outcomes[0]['name']
         team1_price = outcomes[0]['price']
@@ -99,7 +108,8 @@ def extract_bet_information(resp_json):
                                 "team2_name": team2_name,
                                 "time": str(converted_date),
                                 "draw_price": min(draw1, draw2),
-                                "sport_key": sport})
+                                "sport_key": sport,
+                                "last_update": last_update})
     return odds_list_inner
 
 
@@ -119,10 +129,15 @@ if __name__ == '__main__':
                         if i != j:
 
                             max_draw_price = max(i["draw_price"], j["draw_price"])
+                            if i["draw_price"] > j["draw_price"]:
+                                best_draw_odds_bookie = i["title"]
+                            else:
+                                best_draw_odds_bookie = j["title"]
                             t1p = i["team1_price"]
                             t2p = j["team2_price"]
                             tip = total_implied_prob(t1p, t2p, max_draw_price)
-                            if tip < 1:  # We're in the money lads
+                            if tip < 2:  # We're in the money lads
+
                                 gametime = i["time"]
                                 sport = str(i["sport_key"])
                                 team1 = str(i["team1_name"])
@@ -131,12 +146,17 @@ if __name__ == '__main__':
                                 bookmaker2 = str(j["title"])
                                 odds1 = i["team1_price"]
                                 odds2 = j["team2_price"]
-                                draw_odds = j["draw_price"] if j["draw_price"] > 0 else None
+                                last_update1 = i["last_update"]
+                                last_update2 = j["last_update"]
+                                draw_odds = max_draw_price
                                 opportunity = ArbitrageOpportunity(gametime, sport, team1, team2, bookmaker1,
-                                                                   bookmaker2, odds1, odds2, draw_odds)
+                                                                   bookmaker2, odds1, odds2, last_update1,
+                                                                   last_update2, best_draw_odds_bookie, draw_odds)
                                 arbitrage_manager.add_opportunity(opportunity)
 
     # all loops have now ended
+    arbitrage_manager.filter()
+    arbitrage_manager.sort_opportunities()
     print(arbitrage_manager.print_opportunities())
     # with open('arbitrage_manager.pk1', 'wb') as file:
     #     pickle.dump(arbitrage_manager, file)
