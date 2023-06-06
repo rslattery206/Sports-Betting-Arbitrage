@@ -73,6 +73,20 @@ class ArbitrageOpportunity:
         self.last_update1 = last_update1
         self.last_update2 = last_update2
 
+    def get_betting_amounts(self, price1, price2, bet_total=100, draw=None):
+        if not draw:
+            self.bet1 = bet_total * ((1 / price1) - (1 / self.calculate_total_implied_prob())) / (
+                        (1 / price1) + (1 / price2) - 2 / self.calculate_total_implied_prob())
+            self.bet2 = bet_total * (1 - self.bet1)
+        else:
+            self.bet1 = bet_total * (
+                        (1 / price1) - (1 / self.calculate_total_implied_prob()) / (1 / price1) + (1 / price2) + (
+                            1 / draw) - (3 / self.calculate_total_implied_prob()))
+            self.bet2 = bet_total * (
+                        (1 / price2) - (1 / self.calculate_total_implied_prob()) / (1 / price1) + (1 / price2) + (
+                            1 / draw) - (3 / self.calculate_total_implied_prob()))
+            self.bet3 = bet_total * (1 - self.bet1 - self.bet2)
+
     def calculate_total_implied_prob(self):
         if self.draw_odds is None or self.draw_odds == 0:
             return (1 / self.odds1) + (1 / self.odds2)
