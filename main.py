@@ -5,11 +5,8 @@ from datetime import datetime, timedelta, timezone
 from arbitrage_classes import ArbitrageManager, ArbitrageOpportunity
 
 
-# 279c7cb0a5d77305c981038882f61408
-# 462642ce457fcd2071b969b5387e89a4
 
-
-def get():
+def get(key_param, region_param, mkt_param):
     possible_sports = ['americanfootball_ncaaf',
                        'americanfootball_nfl',
                        'americanfootball_nfl_super_bowl_winner',
@@ -37,14 +34,12 @@ def get():
                        'soccer_usa_mls',
                        'tennis_atp_french_open',
                        'tennis_wta_french_open']
-    possible_sports = ['baseball_mlb']
-
     response_json_list = []
     for given_sport in possible_sports:
         print(given_sport)
-        key = '462642ce457fcd2071b969b5387e89a4'
-        mkt = 'h2h'
-        region = 'us'
+        key = key_param
+        mkt = mkt_param
+        region = region_param
         params = {'apiKey': key, 'region': region, 'mkt': mkt}
         url = f'https://api.the-odds-api.com/v4/sports/' \
               f'{given_sport}/odds/' \
@@ -114,8 +109,12 @@ def extract_bet_information(resp_json):
 
 
 if __name__ == '__main__':
-    print("mom")
-    responses = get()
+    key = '5b4ba0dbde6b742985a41cd713d60160'
+    mkt = 'h2h'
+    region = 'us,uk,au,eu'
+
+    unique_bookies = []
+    responses = get(key, region, mkt)
     arbitrage_manager = ArbitrageManager()
     for resp in responses:  # for all sports
         for game_index in range(0, len(resp)):  # for all games in that sport
@@ -137,7 +136,7 @@ if __name__ == '__main__':
                             t1p = i["team1_price"]
                             t2p = j["team2_price"]
                             tip = total_implied_prob(t1p, t2p, max_draw_price)
-                            if tip < 2:  # We're in the money lads
+                            if tip < .99:  # We're in the money lads
 
                                 gametime = i["time"]
                                 sport = str(i["sport_key"])
@@ -154,11 +153,15 @@ if __name__ == '__main__':
                                                                    bookmaker2, odds1, odds2, last_update1,
                                                                    last_update2, best_draw_odds_bookie, draw_odds)
                                 arbitrage_manager.add_opportunity(opportunity)
+                                unique_bookies.append(bookmaker1)
 
     # all loops have now ended
     arbitrage_manager.filter()
     arbitrage_manager.sort_opportunities()
     print(arbitrage_manager.print_opportunities())
+    # with open("uniquebookies.txt", 'w') as file:
+    #     for item in set(unique_bookies):
+    #         file.write(str(item) + '\n')
     # with open('arbitrage_manager.pk1', 'wb') as file:
     #     pickle.dump(arbitrage_manager, file)
 

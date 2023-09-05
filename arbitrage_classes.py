@@ -51,8 +51,11 @@ class ArbitrageManager:
                 print('Draw on ' + str(arbitrage_opportunity.draw_odds_bookie) +
                       " with odds: " + str(arbitrage_opportunity.draw_odds))
             print("Total Implied Prob: " + str(arbitrage_opportunity.total_implied_prob))
-            print("Team1 Last Updated: " + str(arbitrage_opportunity.last_update1))
-            print("Team2 Last Updated: " + str(arbitrage_opportunity.last_update2))
+            print("Betting Amounts: ")
+            print("1: " + str(arbitrage_opportunity.bet1))
+            print("2: " + str(arbitrage_opportunity.bet2))
+            if arbitrage_opportunity.bet3:
+                print("3: " + arbitrage_opportunity.bet3)
             print('\n')
 
 
@@ -72,20 +75,19 @@ class ArbitrageOpportunity:
         self.total_implied_prob = self.calculate_total_implied_prob()
         self.last_update1 = last_update1
         self.last_update2 = last_update2
+        self.bet1, self.bet2, self.bet3 = self.get_betting_amounts(10)
 
-    def get_betting_amounts(self, price1, price2, bet_total=100, draw=None):
+    def get_betting_amounts(self, bet_total=100, draw=None):
         if not draw:
-            self.bet1 = bet_total * ((1 / price1) - (1 / self.calculate_total_implied_prob())) / (
-                        (1 / price1) + (1 / price2) - 2 / self.calculate_total_implied_prob())
-            self.bet2 = bet_total * (1 - self.bet1)
+            bet1 = (bet_total / self.odds1) / (1 / self.odds1 + self.odds2)
+            bet2 = (bet_total / self.odds2) / (1 / self.odds1 + self.odds2)
+            return [bet1, bet2, None]
         else:
-            self.bet1 = bet_total * (
-                        (1 / price1) - (1 / self.calculate_total_implied_prob()) / (1 / price1) + (1 / price2) + (
-                            1 / draw) - (3 / self.calculate_total_implied_prob()))
-            self.bet2 = bet_total * (
-                        (1 / price2) - (1 / self.calculate_total_implied_prob()) / (1 / price1) + (1 / price2) + (
-                            1 / draw) - (3 / self.calculate_total_implied_prob()))
-            self.bet3 = bet_total * (1 - self.bet1 - self.bet2)
+            bet1 = (bet_total / self.odds1) / (1 / self.odds1 + self.odds2 + self.draw_odds)
+            bet2 = (bet_total / self.odds2) / (1 / self.odds1 + self.odds2 + self.draw_odds)
+            bet3 = (bet_total / self.draw_odds) / (1 / self.odds1 + self.odds2 + self.draw_odds)
+            return [bet1, bet2, bet3]
+
 
     def calculate_total_implied_prob(self):
         if self.draw_odds is None or self.draw_odds == 0:

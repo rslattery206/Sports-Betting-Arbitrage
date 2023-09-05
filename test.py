@@ -12,4 +12,6 @@ if __name__ == '__main__':
     arbitrage_manager.filter()
     arbitrage_manager.sort_opportunities('gametime')
     print(arbitrage_manager.print_opportunities())
-    print(total_implied_prob(5.3, 2.25, 2.16))
+    print(total_implied_prob(2.06, 1.67, 0))
+    opp = arbitrage_manager.get_opportunities()[0]
+    print(opp)
