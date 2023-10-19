@@ -1,3 +1,5 @@
+import time
+
 import requests
 import pytz
 import pickle
@@ -5,18 +7,13 @@ from datetime import datetime, timedelta, timezone
 from arbitrage_classes import ArbitrageManager, ArbitrageOpportunity
 
 
-
 def get(key_param, region_param, mkt_param):
     possible_sports = ['americanfootball_ncaaf',
                        'americanfootball_nfl',
-                       'americanfootball_nfl_super_bowl_winner',
                        'aussierules_afl',
                        'baseball_mlb',
                        'basketball_nba',
                        'cricket_test_match',
-                       'golf_masters_tournament_winner',
-                       'golf_the_open_championship_winner',
-                       'golf_us_open_winner',
                        'icehockey_nhl',
                        'mma_mixed_martial_arts',
                        'rugbyleague_nrl',
@@ -36,7 +33,6 @@ def get(key_param, region_param, mkt_param):
                        'tennis_wta_french_open']
     response_json_list = []
     for given_sport in possible_sports:
-        print(given_sport)
         key = key_param
         mkt = mkt_param
         region = region_param
@@ -49,8 +45,8 @@ def get(key_param, region_param, mkt_param):
         response_given_sport = requests.get(url, params=params)
         if response_given_sport.status_code == 200:
             response_json_list.append(response_given_sport.json())
-        else:
-            print(response_given_sport.status_code)
+        # else:
+        #     print(response_given_sport.status_code)
     return response_json_list
 
 
@@ -76,7 +72,7 @@ def check_if_future_game(game_time_str, threshold, timezone_str='America/Los_Ang
     return future_boolean, converted_game_time
 
 
-def extract_bet_information(resp_json):
+def extract_bet_information(resp_json, game_index, converted_date):
     # Extract bookie, sport, odds, team names, and game time.
     odds_list_inner = []
     bookmakers = resp_json[game_index]['bookmakers']
@@ -108,11 +104,15 @@ def extract_bet_information(resp_json):
     return odds_list_inner
 
 
-if __name__ == '__main__':
-    key = '5b4ba0dbde6b742985a41cd713d60160'
-    mkt = 'h2h'
-    region = 'us,uk,au,eu'
+def get_bookie_blacklist():
+    filepath = "bookieblacklist.txt"
+    with open(filepath, "r") as file:
+        lines = file.read().splitlines()
+    return lines
 
+
+def search(key, region, mkt, iteration_counter=0):
+    bookie_blacklist = get_bookie_blacklist()
     unique_bookies = []
     responses = get(key, region, mkt)
     arbitrage_manager = ArbitrageManager()
@@ -123,45 +123,49 @@ if __name__ == '__main__':
             is_future, converted_date = check_if_future_game(resp[game_index]['commence_time'], 30)
 
             if is_future:
-                odds_list = extract_bet_information(resp)
+                odds_list = extract_bet_information(resp, game_index, converted_date)
                 for i in odds_list:
                     for j in odds_list:
                         if i != j:
+                            if i["title"] not in bookie_blacklist and j["title"] not in bookie_blacklist:
+                                max_draw_price = max(i["draw_price"], j["draw_price"])
+                                if i["draw_price"] > j["draw_price"]:
+                                    best_draw_odds_bookie = i["title"]
+                                else:
+                                    best_draw_odds_bookie = j["title"]
+                                t1p = i["team1_price"]
+                                t2p = j["team2_price"]
+                                tip = total_implied_prob(t1p, t2p, max_draw_price)
+                                if tip < .99:  # We're in the money lads
 
-                            max_draw_price = max(i["draw_price"], j["draw_price"])
-                            if i["draw_price"] > j["draw_price"]:
-                                best_draw_odds_bookie = i["title"]
-                            else:
-                                best_draw_odds_bookie = j["title"]
-                            t1p = i["team1_price"]
-                            t2p = j["team2_price"]
-                            tip = total_implied_prob(t1p, t2p, max_draw_price)
-                            if tip < .99:  # We're in the money lads
-
-                                gametime = i["time"]
-                                sport = str(i["sport_key"])
-                                team1 = str(i["team1_name"])
-                                team2 = str(j["team2_name"])
-                                bookmaker1 = str(i["title"])
-                                bookmaker2 = str(j["title"])
-                                odds1 = i["team1_price"]
-                                odds2 = j["team2_price"]
-                                last_update1 = i["last_update"]
-                                last_update2 = j["last_update"]
-                                draw_odds = max_draw_price
-                                opportunity = ArbitrageOpportunity(gametime, sport, team1, team2, bookmaker1,
-                                                                   bookmaker2, odds1, odds2, last_update1,
-                                                                   last_update2, best_draw_odds_bookie, draw_odds)
-                                arbitrage_manager.add_opportunity(opportunity)
-                                unique_bookies.append(bookmaker1)
+                                    gametime = i["time"]
+                                    sport = str(i["sport_key"])
+                                    team1 = str(i["team1_name"])
+                                    team2 = str(j["team2_name"])
+                                    bookmaker1 = str(i["title"])
+                                    bookmaker2 = str(j["title"])
+                                    odds1 = i["team1_price"]
+                                    odds2 = j["team2_price"]
+                                    last_update1 = i["last_update"]
+                                    last_update2 = j["last_update"]
+                                    draw_odds = max_draw_price
+                                    opportunity = ArbitrageOpportunity(gametime, sport, team1, team2, bookmaker1,
+                                                                       bookmaker2, odds1, odds2, last_update1,
+                                                                       last_update2, best_draw_odds_bookie,
+                                                                       draw_odds)
+                                    arbitrage_manager.add_opportunity(opportunity)
+                                    unique_bookies.append(bookmaker1)
 
     # all loops have now ended
     arbitrage_manager.filter()
     arbitrage_manager.sort_opportunities()
     print(arbitrage_manager.print_opportunities())
-    # with open("uniquebookies.txt", 'w') as file:
-    #     for item in set(unique_bookies):
-    #         file.write(str(item) + '\n')
-    # with open('arbitrage_manager.pk1', 'wb') as file:
-    #     pickle.dump(arbitrage_manager, file)
+    # dump to pk1
+    with open(f'pickles/arbitrage_manager{iteration_counter}.pk1', 'wb') as file:
+        pickle.dump(arbitrage_manager, file)
+
+
+if __name__ == '__main__':
+    key = "131888119516489dbac0468fe8a984d0"
+    search(key, 'us', 'h2h')
 

@@ -38,6 +38,8 @@ class ArbitrageManager:
             return int(american_odds)
 
     def print_opportunities(self):
+        if len(self.opportunities) == 0:
+            return
         print("Number of Opportunities: " + str(len(self.opportunities)))
         for arbitrage_opportunity in self.opportunities:
             print("Sport: " + str(arbitrage_opportunity.sport) + " starting at: " + str(arbitrage_opportunity.gametime))
@@ -94,3 +96,4 @@ class ArbitrageOpportunity:
             return (1 / self.odds1) + (1 / self.odds2)
         else:
             return (1 / self.odds1) + (1 / self.odds2) + (1 / self.draw_odds)
+
