@@ -1,0 +1,82 @@
+{
+    "BetOnline.ag": {
+        "login": "https://sports.betonline.ag/sportsbook",
+        "americanfootball_ncaaf": "https://sports.betonline.ag/sportsbook/football/ncaa",
+        "americanfootball_nfl": "https://sports.betonline.ag/sportsbook/football/nfl",
+        "baseball_mlb": "https://sports.betonline.ag/sportsbook/baseball/mlb",
+        "basketball_nba": "https://sports.betonline.ag/sportsbook/basketball/nba",
+        "basketball_ncaab": "https://sports.betonline.ag/sportsbook/basketball/ncaa",
+        "icehockey_nhl": "https://sports.betonline.ag/sportsbook/hockey/nhl",
+        "mma_mixed_martial_arts": "https://sports.betonline.ag/sportsbook/martial-arts/mma"
+    },
+    "FanDuel": {
+        "login": "https://account.sportsbook.fanduel.com/login/select-state",
+        "americanfootball_nfl": "https://sportsbook.fanduel.com/navigation/nfl",
+        "basketball_nba": "https://sportsbook.fanduel.com/navigation/nba",
+        "americanfootball_ncaaf": "https://sportsbook.fanduel.com/navigation/ncaaf",
+        "baseball_mlb": "https://sportsbook.fanduel.com/navigation/mlb",
+        "basketball_ncaab": "https://sportsbook.fanduel.com/navigation/ncaab",
+        "icehockey_nhl": "https://sportsbook.fanduel.com/navigation/nhl",
+        "mma_mixed_martial_arts": "https://sportsbook.fanduel.com/mma?tab=ufc-fights"
+    },
+    "LowVig.ag": {
+        "login": "https://sportsbook.lowvig.ag/",
+        "americanfootball_ncaaf": "https://sportsbook.lowvig.ag/",
+        "americanfootball_nfl": "https://sportsbook.lowvig.ag/",
+        "baseball_mlb": "https://sportsbook.lowvig.ag/",
+        "basketball_nba": "https://sportsbook.lowvig.ag/",
+        "basketball_ncaab": "https://sportsbook.lowvig.ag/",
+        "icehockey_nhl": "https://sportsbook.lowvig.ag/",
+        "mma_mixed_martial_arts": "https://sportsbook.lowvig.ag/"
+    },
+    "MyBookie.ag": {
+        "login": "https://mybookie.ag/sportsbook",
+        "americanfootball_ncaaf": "https://www.mybookie.ag/sportsbook/college-football/",
+        "americanfootball_nfl": "https://mybookie.ag/sportsbook/football/nfl",
+        "baseball_mlb": "https://mybookie.ag/sportsbook/baseball/mlb",
+        "basketball_nba": "https://mybookie.ag/sportsbook/basketball/nba",
+        "basketball_ncaab": "https://mybookie.ag/sportsbook/basketball/ncaa",
+        "icehockey_nhl": "https://mybookie.ag/sportsbook/hockey/nhl",
+        "mma_mixed_martial_arts": "https://mybookie.ag/sportsbook/martial-arts/mma"
+    },
+    "Unibet": {
+        "login": "https://in.unibet.com/#sports-hub",
+        "americanfootball_nfl": "https://in.unibet.com/#sports-hub/american_football/nfl",
+        "americanfootball_ncaaf": "https://in.unibet.com/#sports-hub/american_football/ncaaf",
+        "baseball_mlb": "https://in.unibet.com/#sports-hub/baseball",
+        "basketball_nba": "https://in.unibet.com/#sports-hub/basketball/nba",
+        "basketball_ncaab": "https://in.unibet.com/#sports-hub/basketball/ncaab",
+        "icehockey_nhl": "https://in.unibet.com/#sports-hub/ice_hockey/nhl",
+        "mma_mixed_martial_arts": "https://in.unibet.com/#sports-hub/ufc_mma"
+    },
+    "BetMGM": {
+        "login": "https://sports.in.betmgm.com/en/sports",
+        "americanfootball_ncaaf": "https://sports.in.betmgm.com/en/sports/college-football",
+        "americanfootball_nfl": "https://sports.in.betmgm.com/en/sports/nfl",
+        "baseball_mlb": "https://sports.in.betmgm.com/en/sports/baseball",
+        "basketball_nba": "https://sports.in.betmgm.com/en/sports/basketball",
+        "basketball_ncaab": "https://sports.in.betmgm.com/en/sports/basketball/ncaa",
+        "icehockey_nhl": "https://sports.in.betmgm.com/en/sports/hockey",
+        "mma_mixed_martial_arts": "https://sports.in.betmgm.com/en/sports/mma"
+    },
+    "Bovada": {
+        "login": "https://www.bovada.lv/sports",
+        "americanfootball_ncaaf": "https://www.bovada.lv/sports/football",
+        "americanfootball_nfl": "https://www.bovada.lv/sports/football",
+        "baseball_mlb": "https://www.bovada.lv/sports/baseball",
+        "basketball_nba": "https://www.bovada.lv/sports/basketball",
+        "basketball_ncaab": "https://www.bovada.lv/sports/basketball",
+        "icehockey_nhl": "https://www.bovada.lv/sports/hockey",
+        "mma_mixed_martial_arts": "https://www.bovada.lv/sports/ufc-mma"
+    },
+    "BetUS": {
+        "login": "https://www.betus.com.pa/sportsbook/football/",
+        "americanfootball_ncaaf": "https://www.betus.com.pa/sportsbook/football/",
+        "americanfootball_nfl": "https://www.betus.com.pa/sportsbook/football/",
+        "baseball_mlb": "https://www.betus.com.pa/sportsbook/baseball/",
+        "basketball_nba": "https://www.betus.com.pa/sportsbook/basketball/",
+        "basketball_ncaab": "https://www.betus.com.pa/sportsbook/basketball/",
+        "icehockey_nhl": "https://www.betus.com.pa/sportsbook/ice-hockey/",
+        "mma_mixed_martial_arts": "https://www.betus.com.pa/sportsbook/martial-arts/"
+    }
+}

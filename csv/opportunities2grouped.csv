@@ -1,0 +1,62 @@
+Bookmaker1,Bookmaker2,Team1,Team2,Odds1,Odds2,Total Implied Probability,Lifespan1,Lifespan2,Recorded Time
+BetMGM,BetOnline.ag,UNC Greensboro Spartans,Vanderbilt Commodores,2.2,1.87,0.9893048128342246,00:02:51,00:05:21,2023-11-14 10:59:27.262989
+BetMGM,BetUS,UNC Greensboro Spartans,Vanderbilt Commodores,2.2,1.87,0.9893048128342246,00:02:51,00:03:39,2023-11-14 11:00:26.805123
+BetMGM,Bovada,Atlanta Hawks,Detroit Pistons,1.62,2.75,0.9809203142536476,00:12:11,00:02:02,2023-11-14 11:30:13.659983
+BetMGM,Bovada,Golden State Warriors,Minnesota Timberwolves,2.05,2.05,0.9756097560975612,00:03:35,00:01:46,2023-11-14 14:10:55.183748
+BetMGM,LowVig.ag,UNC Greensboro Spartans,Vanderbilt Commodores,2.2,1.87,0.9893048128342246,00:02:51,00:04:01,2023-11-14 10:59:03.354429
+BetMGM,MyBookie.ag,Atlanta Hawks,Detroit Pistons,1.62,2.75,0.9809203142536476,00:12:11,00:06:05,2023-11-14 11:30:13.659983
+BetMGM,MyBookie.ag,Golden State Warriors,Minnesota Timberwolves,2.05,2.05,0.9756097560975612,00:03:35,00:05:09,2023-11-14 14:10:55.183748
+BetMGM,MyBookie.ag,Golden State Warriors,Minnesota Timberwolves,2.2,2.05,0.9423503325942352,00:08:46,00:01:42,2023-11-14 14:21:30.056798
+BetMGM,MyBookie.ag,Golden State Warriors,Minnesota Timberwolves,2.25,2.05,0.9322493224932248,00:17:25,00:03:23,2023-11-14 14:19:43.149883
+BetMGM,PointsBet (US),Chicago St Cougars,CSU Northridge Matadors,1.87,2.2,0.9893048128342246,00:03:35,00:04:24,2023-11-14 17:07:25.219996
+BetMGM,PointsBet (US),Golden State Warriors,Minnesota Timberwolves,2.05,2.0,0.9878048780487804,00:03:35,00:05:21,2023-11-14 14:10:55.183748
+BetOnline.ag,BetMGM,North Dakota St Bison,UC Davis Aggies,2.75,1.61,0.9847543760587238,00:04:07,00:01:32,2023-11-14 09:21:18.691397
+BetOnline.ag,BetRivers,Drexel Dragons,Temple Owls,1.64,2.65,0.9871145881270134,00:02:06,00:01:13,2023-11-14 13:57:47.502665
+BetOnline.ag,FanDuel,Jeka Saragih,Lucas Alexander,4.95,1.27,0.9894217768233516,02:25:54,02:24:58,2023-11-14 09:00:03.676804
+BetOnline.ag,MyBookie.ag,Golden State Warriors,Minnesota Timberwolves,2.2,2.05,0.9423503325942352,00:11:50,00:08:30,2023-11-14 14:14:35.211459
+BetOnline.ag,PointsBet (US),Golden State Warriors,Minnesota Timberwolves,2.2,2.0,0.9545454545454546,00:01:44,00:01:46,2023-11-14 14:14:35.210463
+BetOnline.ag,TwinSpires,Drexel Dragons,Temple Owls,1.64,2.65,0.9871145881270134,00:02:06,00:01:10,2023-11-14 13:57:59.080533
+BetRivers,MyBookie.ag,Atlanta Hawks,Detroit Pistons,1.63,2.75,0.9771332961517012,00:16:19,00:02:01,2023-11-14 11:32:42.697668
+BetRivers,MyBookie.ag,Golden State Warriors,Minnesota Timberwolves,2.12,2.05,0.9595029912563277,00:18:56,00:10:12,2023-11-14 14:14:12.100017
+BetRivers,PointsBet (US),Chicago St Cougars,CSU Northridge Matadors,1.91,2.2,0.9781056639695382,00:08:13,00:07:56,2023-11-14 17:03:23.122240
+BetRivers,PointsBet (US),Chicago St Cougars,CSU Northridge Matadors,1.96,2.2,0.9647495361781075,00:00:45,00:00:52,2023-11-14 17:01:49.088732
+BetRivers,PointsBet (US),Golden State Warriors,Minnesota Timberwolves,2.12,2.0,0.9716981132075472,00:01:45,00:01:46,2023-11-14 14:14:12.100017
+BetUS,BetMGM,North Dakota St Bison,UC Davis Aggies,2.72,1.61,0.9887650712458896,00:06:05,00:04:37,2023-11-14 09:20:08.707091
+BetUS,BetRivers,Drexel Dragons,Temple Owls,1.65,2.65,0.9834190966266438,00:01:15,00:01:13,2023-11-14 13:57:47.502665
+BetUS,Bovada,North Dakota St Bison,UC Davis Aggies,2.72,1.62,0.9849310094408132,00:02:01,00:02:03,2023-11-14 09:20:08.707091
+BetUS,TwinSpires,Drexel Dragons,Temple Owls,1.65,2.65,0.9834190966266438,00:01:15,00:01:10,2023-11-14 13:57:59.080533
+Bovada,BetRivers,Duke Blue Devils,Michigan St Spartans,1.57,2.85,0.9878198681416918,00:02:56,00:01:27,2023-11-14 12:38:19.004497
+Bovada,BetRivers,Duke Blue Devils,Michigan St Spartans,1.57,2.88,0.9841648973814578,00:04:23,00:03:00,2023-11-14 12:33:47.601413
+Bovada,BetRivers,Lipscomb Bisons,Tennessee Tech Golden Eagles,1.95,2.2,0.9673659673659674,00:01:23,00:01:24,2023-11-14 13:05:45.554594
+Bovada,PointsBet (US),Chicago St Cougars,CSU Northridge Matadors,1.87,2.2,0.9893048128342246,00:10:42,00:10:32,2023-11-14 17:01:14.430640
+Bovada,PointsBet (US),Chicago St Cougars,CSU Northridge Matadors,1.91,2.2,0.9781056639695382,00:02:09,00:02:39,2023-11-14 17:04:09.401083
+Bovada,TwinSpires,Duke Blue Devils,Michigan St Spartans,1.57,2.85,0.9878198681416918,00:02:52,00:01:27,2023-11-14 12:39:06.020484
+Bovada,TwinSpires,Duke Blue Devils,Michigan St Spartans,1.57,2.88,0.9841648973814578,00:10:19,00:08:46,2023-11-14 12:33:13.073864
+Bovada,TwinSpires,Lipscomb Bisons,Tennessee Tech Golden Eagles,1.95,2.2,0.9673659673659674,00:01:23,00:01:20,2023-11-14 13:05:45.554594
+Bovada,Unibet,Duke Blue Devils,Michigan St Spartans,1.57,2.85,0.9878198681416918,00:04:27,00:01:25,2023-11-14 12:39:06.020484
+Bovada,Unibet,Duke Blue Devils,Michigan St Spartans,1.57,2.88,0.9841648973814578,00:05:52,00:04:19,2023-11-14 12:33:24.541911
+FanDuel,BetRivers,Bellarmine Knights,Chattanooga Mocs,3.05,1.54,0.9772195018096658,00:02:03,00:02:03,2023-11-14 09:46:48.563745
+FanDuel,BetRivers,Duke Blue Devils,Michigan St Spartans,1.59,2.88,0.9761530398322852,00:01:29,00:01:29,2023-11-14 12:33:47.601413
+FanDuel,MyBookie.ag,Atlanta Hawks,Detroit Pistons,1.62,2.75,0.9809203142536476,00:02:02,00:02:01,2023-11-14 11:34:03.373973
+FanDuel,MyBookie.ag,Golden State Warriors,Minnesota Timberwolves,2.18,2.05,0.9465204743790556,00:17:12,00:05:05,2023-11-14 14:18:32.184974
+FanDuel,TwinSpires,Duke Blue Devils,Michigan St Spartans,1.59,2.88,0.9761530398322852,00:04:35,00:02:57,2023-11-14 12:33:13.073864
+FanDuel,Unibet,Duke Blue Devils,Michigan St Spartans,1.59,2.88,0.9761530398322852,00:04:35,00:02:52,2023-11-14 12:33:24.541911
+LowVig.ag,BetRivers,Drexel Dragons,Temple Owls,1.65,2.65,0.9834190966266438,00:02:53,00:01:13,2023-11-14 13:57:47.502665
+LowVig.ag,FanDuel,Jeka Saragih,Lucas Alexander,4.95,1.27,0.9894217768233516,02:25:08,02:24:58,2023-11-14 09:00:03.677804
+LowVig.ag,MyBookie.ag,Golden State Warriors,Minnesota Timberwolves,2.2,2.05,0.9423503325942352,00:12:24,00:10:12,2023-11-14 14:13:14.349500
+LowVig.ag,PointsBet (US),Golden State Warriors,Minnesota Timberwolves,2.2,2.0,0.9545454545454546,00:01:48,00:01:46,2023-11-14 14:13:14.349500
+LowVig.ag,TwinSpires,Drexel Dragons,Temple Owls,1.65,2.65,0.9834190966266438,00:02:53,00:01:10,2023-11-14 13:57:59.080533
+PointsBet (US),BetRivers,Duke Blue Devils,Michigan St Spartans,1.56,2.88,0.9882478632478632,00:04:36,00:03:00,2023-11-14 12:33:47.601413
+PointsBet (US),MyBookie.ag,Atlanta Hawks,Detroit Pistons,1.67,2.75,0.9624387588459444,00:14:11,00:02:01,2023-11-14 11:33:51.685190
+PointsBet (US),TwinSpires,Duke Blue Devils,Michigan St Spartans,1.56,2.88,0.9882478632478632,00:12:09,00:08:46,2023-11-14 12:33:13.073864
+PointsBet (US),Unibet,Duke Blue Devils,Michigan St Spartans,1.56,2.88,0.9882478632478632,00:04:36,00:04:19,2023-11-14 12:33:24.541911
+TwinSpires,MyBookie.ag,Atlanta Hawks,Detroit Pistons,1.63,2.75,0.9771332961517012,00:16:15,00:02:01,2023-11-14 11:32:42.697668
+TwinSpires,MyBookie.ag,Golden State Warriors,Minnesota Timberwolves,2.12,2.05,0.9595029912563277,00:23:51,00:10:12,2023-11-14 14:13:37.418622
+TwinSpires,PointsBet (US),Chicago St Cougars,CSU Northridge Matadors,1.91,2.2,0.9781056639695382,00:08:25,00:07:56,2023-11-14 17:03:34.851934
+TwinSpires,PointsBet (US),Chicago St Cougars,CSU Northridge Matadors,1.96,2.2,0.9647495361781075,00:01:24,00:02:36,2023-11-14 17:01:25.963436
+TwinSpires,PointsBet (US),Golden State Warriors,Minnesota Timberwolves,2.12,2.0,0.9716981132075472,00:01:46,00:01:46,2023-11-14 14:13:37.418622
+Unibet,MyBookie.ag,Atlanta Hawks,Detroit Pistons,1.63,2.75,0.9771332961517012,00:14:13,00:02:01,2023-11-14 11:33:40.235032
+Unibet,MyBookie.ag,Golden State Warriors,Minnesota Timberwolves,2.12,2.05,0.9595029912563277,00:18:54,00:10:12,2023-11-14 14:14:12.100017
+Unibet,PointsBet (US),Chicago St Cougars,CSU Northridge Matadors,1.91,2.2,0.9781056639695382,00:08:22,00:08:48,2023-11-14 17:03:11.595021
+Unibet,PointsBet (US),Chicago St Cougars,CSU Northridge Matadors,1.96,2.2,0.9647495361781075,00:01:25,00:01:44,2023-11-14 17:01:14.430640
+Unibet,PointsBet (US),Golden State Warriors,Minnesota Timberwolves,2.12,2.0,0.9716981132075472,00:01:45,00:01:46,2023-11-14 14:14:12.100017
